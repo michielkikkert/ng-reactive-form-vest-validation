@@ -90,6 +90,8 @@ export class TestComponent {
 		firstName: new FormControl('', [this.vestValidatorFactory('firstName', 'bla')]),
 		lastName: new FormControl('', [this.vestValidatorFactory('lastName')]),
 		email: new FormControl('', [this.vestValidatorFactory('email')]),
+		// This is a group to allow for cross validations between password and confirmPassword.
+		// Note that it is not needed to attach the validator to the controls. The group will take care of it.
 		passwordGroup: new FormGroup(
 			{
 				password: new FormControl('abc'),
@@ -97,6 +99,8 @@ export class TestComponent {
 			},
 			[this.vestValidatorFactory('passwordGroup')],
 		),
+		// For a FormArray - you will only need to attach the validator to the array itself.
+		// The logic in the validator will take care of attaching Validation results to the individual groups or controls in the FormArray
 		children: new FormArray([], [this.vestValidatorFactory('children')]),
 	});
 
@@ -112,6 +116,7 @@ export class TestComponent {
 	}
 
 	get newChild() {
+		// No need to attach validators here, the FormArray validator will also validate these children.
 		return new FormGroup({
 			name: new FormControl(''),
 			age: new FormControl<number | null>(null),
