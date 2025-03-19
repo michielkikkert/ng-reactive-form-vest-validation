@@ -40,7 +40,6 @@ export class TestComponent {
 			form.updateValueAndValidity();
 			// Get the (parent) form value
 			const formValue = form.value;
-
 			// Run the validation suite for the current field against the root form
 			const result = suite(formValue, field, group).getErrors();
 
