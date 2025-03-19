@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'ng-reactive-form-vest-validation' title`, () => {
+  it(`should have the 'ng-vest-signal-forms' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ng-reactive-form-vest-validation');
+    expect(app.title).toEqual('ng-vest-signal-forms');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ng-reactive-form-vest-validation');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ng-vest-signal-forms');
   });
 });

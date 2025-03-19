@@ -1,0 +1,69 @@
+<div class="auth-container">
+	<div class="auth-box">
+		<div class="auth-header">
+			<h1>Reactive form with Vest model validation</h1>
+		</div>
+
+		<form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+			<div class="form-group">
+				<label for="firstName">First name (*)</label>
+				<input type="text" id="firstName" name="firstName" formControlName="firstName" />
+				@if(form.get(['firstName'])?.dirty || form.controls.firstName.touched) {
+					{{form.get(['firstName'])?.errors?.message}}
+				}
+			</div>
+
+			<div class="form-group">
+				<label for="lastName">Last name</label>
+				<input type="text" id="lastName" name="lastName" formControlName="lastName" />
+			</div>
+
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input type="email" id="email" name="email" formControlName="email" />
+			</div>
+			<div class="form-group" formGroupName="passwordGroup">
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" id="password" name="password" formControlName="password" />
+				</div>
+				{{form.get(['passwordGroup', 'password'])?.errors?.message}}
+				<div class="form-group">
+					<label for="confirmPassword">Confirm password</label>
+					<input type="password" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" />
+				</div>
+				{{form.get(['passwordGroup', 'confirmPassword'])?.errors?.message}}
+			</div>
+
+			<h2>Children:</h2>
+			<h3>{{form.get('children')?.errors?.message}}</h3>
+			<ng-container formArrayName = 'children'>
+				@for (child of children.controls; track child; let i = $index) {
+					Child {{i}}
+					<ng-container [formGroupName]="i">
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" formControlName="name" />
+						{{form.get(['children', i, 'name'])?.errors?.message}}
+					</div>
+					<div class="form-group">
+						<label>Age</label>
+						<input type="number" formControlName="age" />
+						{{form.get(['children', i, 'age'])?.errors?.message}}
+					</div>
+					</ng-container>
+					<button type="button" (click)="removeChild(i)">remove</button>
+				}
+			</ng-container>
+
+			{{form.get(['children'])?.errors?.message}}
+			<button type="button" class="submit-btn"  (click)="addChild()">Add Child</button> <!-- [disabled]="form.controls.children.length &&  form.controls.children.invalid" -->
+			<button type="submit" class="submit-btn" >Submit</button> <!-- [disabled]="!form.valid" -->
+		</form>
+	</div>
+</div>
+<div class="debug">
+		<pre>form: {{formSignal() | json}} </pre>
+		<pre> Validations: {{ suiteSignal() | json }}</pre>
+		<pre>form valid: {{ form.valid| json }}</pre>
+</div>
