@@ -56,7 +56,6 @@
 				}
 			</ng-container>
 
-			{{form.get(['children'])?.errors?.message}}
 			<button type="button" class="submit-btn"  (click)="addChild()">Add Child</button> <!-- [disabled]="form.controls.children.length &&  form.controls.children.invalid" -->
 			<button type="submit" class="submit-btn" >Submit</button> <!-- [disabled]="!form.valid" -->
 		</form>
