@@ -8,8 +8,8 @@
 			<div class="form-group">
 				<label for="firstName">First name (*)</label>
 				<input type="text" id="firstName" name="firstName" formControlName="firstName" />
-				@if(form.get(['firstName'])?.dirty || form.controls.firstName.touched) {
-					{{form.get(['firstName'])?.errors?.message}}
+				@if(form.controls.firstName.dirty || form.controls.firstName.touched) {
+					{{form.controls.firstName.errors?.message}}
 				}
 			</div>
 

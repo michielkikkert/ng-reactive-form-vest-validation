@@ -5,6 +5,7 @@ export const suite = create((model: any, field: string, groupName, parent: strin
 	only(field);
 
 	// just a group test for later (need to check composition for multiple steps forms)
+	// Group is the second argument for the VestValidatorFactory.
 	group('bla', () => {
 		skip(groupName !== 'bla');
 		test('firstName', 'Firstname is required', () => {
@@ -13,13 +14,6 @@ export const suite = create((model: any, field: string, groupName, parent: strin
 
 		test('firstName', 'Firstname should be longer than 2 chars', () => {
 			enforce(model.firstName).longerThan(2);
-		});
-	});
-
-	group('test', () => {
-		skip(groupName !== 'test');
-		test('firstName', 'Firstname is required', () => {
-			enforce(model.test).isNotBlank();
 		});
 	});
 
@@ -56,8 +50,10 @@ export const suite = create((model: any, field: string, groupName, parent: strin
 
 	// Optimization with omitWhen
 	omitWhen(!model.children.length, () => {
-		// Testingg controls in FormArray is a bit complex. We need to be able to uniquely identify these controls..
-		// .. like [array parent] - [control name] - [index]
+		// Testing controls in FormArray is a bit complex. We need to be able to uniquely identify these controls..
+		// ..like [array parent] - [control name] - [index].
+		// this is needed as vest is basically flat while Angular forms with arrays are nested.
+		// So below naming is used to allow Vest to uniquely validate zero to infinite control groups in a FormArray.
 		each((model.children as {age: string, name: string}[]), ({ age, name }, index) => {
 			test(
 				`children-name-${index}`,

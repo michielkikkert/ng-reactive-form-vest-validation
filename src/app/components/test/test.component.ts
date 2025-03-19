@@ -17,20 +17,6 @@ type FormConfig = FormConfigItem & {
 	fields?: FormConfigItem[];
 };
 
-type Child = {
-	name: string;
-	age: number;
-};
-
-type FormModel = {
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
-	confirmPassword: string;
-	children: Child[];
-};
-
 @Component({
 	selector: 'app-test',
 	templateUrl: './test.component.html',
@@ -38,66 +24,8 @@ type FormModel = {
 	styleUrls: ['./test.component.scss'],
 })
 export class TestComponent {
-	private signupFormConfig: FormConfig[] = [
-		{
-			name: 'firstName',
-			label: 'First Name',
-			fieldType: 'text',
-			value: 'Michiel',
-		},
-		{
-			name: 'lastName',
-			label: 'Last Name',
-			fieldType: 'text',
-			value: 'Kikkert',
-		},
-		{
-			name: 'email',
-			label: 'Email',
-			fieldType: 'email',
-			value: '',
-		},
-		{
-			name: 'passwordGroup',
-			label: '',
-			formType: 'FormGroup',
-			value: [
-				{
-					name: 'password',
-					label: 'Password',
-					fieldType: 'password',
-					value: '',
-				},
-				{
-					name: 'confirmPassword',
-					label: 'Confirm Password',
-					fieldType: 'password',
-					value: '',
-				},
-			],
-		},
-		{
-			name: 'children',
-			label: 'Children',
-			formType: 'FormArray',
-			value: [],
-			fields: [
-				{
-					name: 'name',
-					label: 'Name',
-					fieldType: 'text',
-					value: '',
-				},
-				{
-					name: 'age',
-					label: 'Age',
-					fieldType: 'text',
-					value: '',
-				},
-			],
-		},
-	];
 
+	// This factory Function returns the Vest validator and does some stuff to handle FormGroups and FormArrays as well.
 	private vestValidatorFactory = (field = '', group = '') => {
 		return (control: AbstractControl): ValidationErrors | null => {
 			const controlName = Object.keys(control.parent?.controls || {}).find((key) => control.parent?.get(key) === control);
@@ -172,6 +100,7 @@ export class TestComponent {
 		children: new FormArray([], [this.vestValidatorFactory('children')]),
 	});
 
+	// Just for some debug info in the template
 	public formSignal = toSignal(this.form.valueChanges);
 	public suiteSignal = computed(() => {
 		this.formSignal();
@@ -203,7 +132,7 @@ export class TestComponent {
 		console.log('SUITE RESULT', suite.getErrors());
 
 		if (this.form.invalid) {
-			this.form.markAllAsTouched();
+			this.form.markAllAsTouched(); // This will 'activate' (show) all fields with errors
 			return;
 		}
 
